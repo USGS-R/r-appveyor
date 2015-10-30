@@ -56,7 +56,7 @@ Function Bootstrap {
   tzutil /g
 
   Progress "Downloading R.iso and Rtools.iso"
-  bash -c '(curl -s -L https://rportable.blob.core.windows.net/r-portable/master/Rtools.iso.gz | gunzip -c > ../Rtools.iso) & rtools_pid=$!; curl -s -L https://rportable.blob.core.windows.net/r-portable/master/R.iso.gz | gunzip -c > ../R.iso; wait $rtools_pid'
+  bash -c 'curl -s -L https://rportable.blob.core.windows.net/r-portable/master/Rtools.iso.gz | gunzip -c > ../Rtools.iso; curl -s -L https://rportable.blob.core.windows.net/r-portable/master/R.iso.gz | gunzip -c > ../R.iso'
 
   Progress "Getting full path for R.iso"
   $ImageFullPath = Get-ChildItem "..\R.iso" | % { $_.FullName }
