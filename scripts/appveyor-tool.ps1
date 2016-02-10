@@ -1,4 +1,8 @@
 $CRAN = "http://cran.rstudio.com"
+$RVersion = "R-stable"
+# would like to provide RVersion as an argument eventually. see 
+# http://powershelleverydayfaq.blogspot.com/2014/01/loading-import-module-with-arguments.html
+
 
 # Found at http://zduck.com/2012/powershell-batch-files-exit-codes/
 Function Exec
@@ -66,13 +70,13 @@ Function Bootstrap {
   Progress "Mounting R.vhd"
   $RDrive = [string](Mount-DiskImage -ImagePath $ImageFullPath -Passthru | Get-DiskImage | Get-Disk | Get-Partition | Get-Volume).DriveLetter + ":"
   # Assert that R was mounted properly
-  if ( -not (Test-Path "${RDrive}\R\bin" -PathType Container) ) {
-    Throw "Failed to mount R. Could not find directory: ${RDrive}\R\bin"
+  if ( -not (Test-Path "${RDrive}\${RVersion}\bin" -PathType Container) ) {
+    Throw "Failed to mount R. Could not find directory: ${RDrive}\${RVersion}\bin"
   }
   echo "R is now available on drive $RDrive"
 
   Progress "Setting PATH"
-  $env:PATH = $RDrive + '\R\bin\i386;' + 'C:\MinGW\msys\1.0\bin;' + $env:PATH
+  $env:PATH = $RDrive + '\' + $RVersion + '\bin\i386;' + 'C:\MinGW\msys\1.0\bin;' + $env:PATH
 
   if ( Test-Path "/**/src" ) {
   Progress "Downloading Rtools.vhd"
@@ -105,7 +109,7 @@ Function Bootstrap {
   }
 
   Progress "Downloading and installing travis-tool.sh"
-  Invoke-WebRequest http://raw.github.com/krlmlr/r-travis/master/scripts/travis-tool.sh -OutFile "..\travis-tool.sh"
+  Invoke-WebRequest http://raw.github.com/USGS-R/r-travis/master/scripts/travis-tool.sh -OutFile "..\travis-tool.sh"
   echo '@bash.exe ../travis-tool.sh %*' | Out-File -Encoding ASCII .\travis-tool.sh.cmd
   cat .\travis-tool.sh.cmd
   bash -c "echo '^travis-tool\.sh\.cmd$' >> .Rbuildignore"
