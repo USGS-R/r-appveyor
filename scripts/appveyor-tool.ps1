@@ -1,4 +1,5 @@
 $CRAN = "http://cran.rstudio.com"
+$RVersion = "R"
 
 # Found at http://zduck.com/2012/powershell-batch-files-exit-codes/
 Function Exec
@@ -66,13 +67,13 @@ Function Bootstrap {
   Progress "Mounting R.vhd"
   $RDrive = [string](Mount-DiskImage -ImagePath $ImageFullPath -Passthru | Get-DiskImage | Get-Disk | Get-Partition | Get-Volume).DriveLetter + ":"
   # Assert that R was mounted properly
-  if ( -not (Test-Path "${RDrive}\R\bin" -PathType Container) ) {
-    Throw "Failed to mount R. Could not find directory: ${RDrive}\R\bin"
+  if ( -not (Test-Path "${RDrive}\${RVersion}\bin" -PathType Container) ) {
+    Throw "Failed to mount R. Could not find directory: ${RDrive}\${RVersion}\bin"
   }
   echo "R is now available on drive $RDrive"
 
   Progress "Setting PATH"
-  $env:PATH = $RDrive + '\R\bin\i386;' + 'C:\MinGW\msys\1.0\bin;' + $env:PATH
+  $env:PATH = $RDrive + '\' + $RVersion + '\bin\i386;' + 'C:\MinGW\msys\1.0\bin;' + $env:PATH
 
   if ( Test-Path "/**/src" ) {
   Progress "Downloading Rtools.vhd"
