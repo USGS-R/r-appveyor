@@ -1,5 +1,5 @@
 $CRAN = "http://cran.rstudio.com"
-$RVersion = "R"
+$RVersion = "R-stable"
 
 # Found at http://zduck.com/2012/powershell-batch-files-exit-codes/
 Function Exec
