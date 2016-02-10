@@ -1,5 +1,8 @@
 $CRAN = "http://cran.rstudio.com"
 $RVersion = "R-stable"
+# would like to provide RVersion as an argument eventually. see 
+# http://powershelleverydayfaq.blogspot.com/2014/01/loading-import-module-with-arguments.html
+
 
 # Found at http://zduck.com/2012/powershell-batch-files-exit-codes/
 Function Exec
