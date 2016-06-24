@@ -68,6 +68,9 @@ Function InstallR {
   ElseIf (($version -eq "stable") -or ($version -eq "release")) {
     $url_path = ""
     $version = $(ConvertFrom-JSON $(Invoke-WebRequest http://rversions.r-pkg.org/r-release).Content).version
+    If ($version -eq "3.2.4") {
+      $version = "3.2.4revised"
+    }
   }
   ElseIf ($version -eq "patched") {
     $url_path = ""
@@ -129,6 +132,7 @@ Function InstallRtools {
     $gcc_path = $env:GCC_PATH
   }
   $env:PATH = $RtoolsDrive + '\Rtools\bin;' + $RtoolsDrive + '\Rtools\MinGW\bin;' + $RtoolsDrive + '\Rtools\' + $gcc_path + '\bin;' + $env:PATH
+  $env:BINPREF=$RtoolsDrive + '/Rtools/mingw_$(WIN)/bin/'
 }
 
 Function Bootstrap {
